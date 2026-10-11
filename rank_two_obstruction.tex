@@ -1,0 +1,1708 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,longtable,booktabs,hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\emergencystretch=3em
+\newcommand{\id}{\mathbb I}
+\newcommand{\Herm}{\operatorname{Herm}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\title{No four-fold unbiased measurements with four outcomes of rank two}
+\author{Daniel Rupawalla\\ Independent Researcher\\ \texttt{danielrupawalla@utexas.edu}}
+\date{10 October 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We study the relation between spectral and algebraic higher-order
+unbiasedness for equal-rank projective measurements. Exact averaged
+fourth- and sixth-moment identities express deviations from the universal
+spectral target as sums of squared operator defects. Consequently every
+spectral $k$-fold unbiased tuple is pairwise mutually unbiased, and every
+three-setting subtuple is an algebraic 3-fold unbiased triple (3-UM), at
+arbitrary finite rank and outcome number. In particular there is no
+three-outcome spectral $k$-UM for any $k\geq4$, extending the known
+case $k=3$.
+For four outcomes at rank two, a determinant-phase argument proves that
+every 3-UM has a simultaneous quaternionic realization. Combined with the
+moment identities, this shows that in this regime a spectral 4-UM is
+automatically algebraic. We classify the possible third outcomes over every
+pair that is not a direct sum of mutually unbiased bases, and show that
+every 3-UM contains a pair that is such a direct sum. A uniform obstruction
+for triples containing such a pair then shows that no four-fold unbiased
+measurement, algebraic or spectral, with four outcomes of rank two exists.
+Several steps are certified by exact symbolic computation, with scripts
+provided; no numerical search is used in the proofs.
+\end{abstract}
+
+\section{Introduction and definitions}
+Higher-order unbiasedness constrains quantum measurements beyond their
+pairwise overlaps. Designolle and Farkas introduced algebraic and spectral
+$k$-fold unbiased measurements and established their equivalence for pairs,
+triples, rank-one measurements, and binary measurements \cite[Thm.~3]{DF}.
+For four or more settings and more than two outcomes, the relation
+between the two definitions is left open there, and no genuinely
+higher-order example with $k>3$ and $n>2$ is known \cite[Sec.~VI]{DF}.
+Their smallest nonbinary triple has four outcomes of rank two on
+$\mathbb C^8$. They extend it to four settings whose every three-setting
+subtuple is a 3-UM, and show that this quartet is neither an algebraic nor
+a spectral 4-UM: its selected sums have fourth moments $64$ and $65$
+rather than the target $257/4$ \cite[App.~C]{DF}. Whether any
+four-outcome rank-two quartet can be four-fold unbiased is therefore the
+natural existence question in this regime.
+
+Our main results address these two questions in a precise order.
+Theorem~\ref{thm:spectralheredity} proves that the spectral definition
+forces pairwise and three-setting algebraic relations at every rank.
+Designolle and Farkas observe that their four-outcome triple is the
+complexification of three quaternionic mutually unbiased bases \cite{DF};
+Theorem~\ref{thm:quaternionrigidity} shows that every four-outcome
+rank-two 3-UM has this form.
+Corollary~\ref{cor:unconditionalfour} uses this to show that a spectral
+4-UM in this regime is automatically algebraic, which transfers the
+algebraic obstruction below to the spectral definition.
+Theorem~\ref{thm:commutingnonextension} excludes every extension of a
+triple containing a commuting canonical pair. Theorem~\ref{thm:globalcommuting} proves that every strong triple
+contains such a pair, and Corollary~\ref{cor:globalnonexistence}
+therefore settles the four-setting existence question at rank two.
+This is consistent with the quartet of \cite[App.~C]{DF}: its first two
+settings are the computational and real-Hadamard measurements, which form
+a commuting canonical pair.
+
+The rank-one higher-order framework is due to Farkas \cite{F}.
+Unitary-block representations and the canonical-form commutativity
+criterion for higher-rank mutually unbiased measurements are developed in
+\cite{FKN}; order-four
+quaternionic and complex Hadamard classifications appear in \cite{CD,TZ}.
+These supply ingredients for the structural and extension arguments.
+Our arbitrary-rank statement concerns low-order spectral heredity, rather
+than full algebraic--spectral equivalence at every rank and order.
+The global nonexistence result concerns rank two; higher ranks require
+a different structural argument.
+
+\paragraph{Definitions.}
+An $n$-outcome rank-$r$ projective measurement on $\mathbb C^{nr}$ is
+an orthogonal resolution of the identity $(P_{a|x})_{a=1}^n$, with each
+projector of rank $r$. For $k$ settings and an outcome string $\vec a$,
+write $S_{\vec a}=\sum_{x=1}^kP_{a_x|x}$.
+The tuple is a spectral $k$-UM when every selected sum has
+characteristic polynomial $\mu_{k,n}(t)^r$, where
+\[
+ \mu_{k,n}(t)=\left(1-\frac1n\frac{d}{dt}\right)^kt^n.
+\]
+It is an algebraic $k$-UM when, for every selected outcome $A$ used
+as anchor, the sum over all orderings of the other $k-1$ selected
+outcomes satisfies
+\[
+ \sum_{\pi\in S_{k-1}} A B_{\pi(1)}\cdots B_{\pi(k-1)} A
+ =\frac{(k-1)!}{n^{k-1}}A.
+\]
+We state both definitions for projective measurements of equal rank;
+\cite{DF} define the algebraic notion for general measurements and show
+that projectivity and equal rank follow \cite[Thm.~3(1)]{DF}.
+The algebraic definition is hereditary \cite[Thm.~3(1)]{DF}. In particular, any algebraic
+$k$-UM is pairwise mutually unbiased:
+$PQP=P/n$ and $QPQ=Q/n$ for selected outcomes from distinct settings.
+A \emph{strong triple} means an algebraic 3-UM; by \cite[Thm.~3(5)]{DF}
+this is the same as a spectral 3-UM. At four outcomes its
+anchored relation is
+\begin{equation}\label{eq:triple}
+ A(BC+CB)A=\frac18 A.
+\end{equation}
+For later use, $\Sym(B,C,X)$ denotes the sum of the six ordered products
+of $B,C,X$.
+
+For a rank-two mutually unbiased pair, choose computational coordinates
+for the first measurement and write the second outcome frames as block
+columns $(U_{ab}/2)_a$, with $U_{ab}\in U(2)$. Row and column frame
+gauges set $U_{a0}=U_{0b}=\id_2$. We call the resulting blocks canonical,
+and call the pair commuting when these blocks commute pairwise.
+Our dephased blocks are a canonical form in the sense of \cite{FKN}.
+By \cite[Prop.~2.8]{FKN}, in canonical form the blocks commute if and only
+if the pair is a direct sum of mutually unbiased bases
+\cite[Def.~2.7]{FKN}. Since that is a property of the pair itself, any two
+dephased gauges of the same pair agree on whether the blocks commute.
+Commutativity of the blocks does not mean that the outcome projectors of
+the two measurements commute.
+
+\section{Spectral rigidity from averaged moments}
+\label{sec:spectralrigidity}
+For $k$ rank-$r$, $n$-outcome PVMs on $\mathbb C^{nr}$, put
+$S_{\vec a}=\sum_x P_{a_x|x}$, $h=1/n$, and let $\mathbb E$ denote uniform
+averaging over the relevant outcome strings. Write $p_m(k,n)$ for the
+sum of the $m$th powers of the zeros of $\mu_{k,n}$, including multiplicities.
+For two settings define the nonnegative number
+\[
+ D_{xy}=\mathbb E_{a,b}\left\|P_{a|x}P_{b|y}P_{a|x}
+                         -hP_{a|x}\right\|_{\mathrm{HS}}^2.
+\]
+For three distinct settings, write $P,Q,R$ for their selected outcomes and
+define the three anchored defects
+\[
+ D_{xyz}^{P}=\mathbb E\left\|P(QR+RQ)P-2h^2P\right\|_{\mathrm{HS}}^2,
+\]
+with $D_{xyz}^{Q},D_{xyz}^{R}$ defined by exchanging the anchor.
+
+\begin{lemma}[Exact averaged defect identities]
+\label{lem:spectraldefects}
+For arbitrary equal-rank PVMs,
+\[
+ \mathbb E\operatorname{Tr}S^4-rp_4(k,n)=2\sum_{x<y}D_{xy}.
+ \tag{M4}
+\]
+If every pair is mutually unbiased, then
+\[
+ \mathbb E\operatorname{Tr}S^6-rp_6(k,n)
+ =\sum_{x<y<z}(D_{xyz}^{P}+D_{xyz}^{Q}+D_{xyz}^{R}).
+ \tag{M6}
+\]
+\end{lemma}
+\begin{proof}
+Expand the powers as words in selected projectors. Under the real trace,
+cyclic rotations agree. Adjacent repeated letters collapse by projectivity.
+A setting occurring just once can be averaged out, contributing $h\id$.
+For (M6), pairwise mutual unbiasedness additionally replaces $PQP$ by $hP$.
+The following table gives the constant contributions, divided by the
+ambient dimension $nr$, for each specified subset of $\ell$ settings.
+Multiply each row by $\binom{k}{\ell}$. The cycle column gives the
+number of words left after these reductions.
+\[
+\begin{array}{c|cc|cc}
+ &\multicolumn{2}{c|}{m=4}&\multicolumn{2}{c}{m=6}\rule{0pt}{13pt}\\
+\ell&\text{constant}&\text{cycles}&\text{constant}&\text{cycles}\\\hline
+1&h&0&h&0\\
+2&12h^2&2&30h^2+30h^3+2h^4&0\\
+3&36h^3&0&300h^3+234h^4&6\\
+4&24h^4&0&1200h^4+360h^5&0\\
+5&0&0&1800h^5&0\\
+6&0&0&720h^6&0
+\end{array}
+\]
+The two fourth-order cycle words are $PQPQ,QPQP$. Their average real
+trace is $y=\mathbb E\operatorname{Tr}(PQPQ)$, and expansion of the
+pair defect gives $D_{xy}=y-rh^2$. Replacing each cycle trace by $rh^2$
+in the fourth-order expansion gives $rp_4(k,n)$.
+
+The six sixth-order cycle words are $(PQR)^2$ and its cyclic rotations
+and reversals. Put $x=\mathbb E\operatorname{Re}\operatorname{Tr}(PQR)^2$.
+For $T=P Q R P$, pairwise compression gives
+$\operatorname{Tr}TT^*=rh^3$, and completeness gives
+$\mathbb E\operatorname{Re}\operatorname{Tr}T=rh^2$. Therefore
+\[
+ D_{xyz}^{P}=2x+2rh^3-4rh^4.
+\]
+Real-trace cyclicity gives exactly the same expression for the other
+two anchors. Replacing each sixth-order cycle trace by
+$r(2h^4-h^3)$ gives $rp_6(k,n)$, and its remaining excess is
+$6[x-r(2h^4-h^3)]=D_{xyz}^{P}+D_{xyz}^{Q}+D_{xyz}^{R}$.
+
+For completeness, the Newton identities needed for both replacements are
+\begin{align*}
+ h p_4(k,n)&=kh+\binom{k}{2}(12h^2+2h^3)
+                  +36\binom{k}{3}h^3+24\binom{k}{4}h^4,\\
+ h p_6(k,n)&=kh+\binom{k}{2}(30h^2+30h^3+2h^4)\\
+ &\quad+\binom{k}{3}(300h^3+228h^4+12h^5)
+ +\binom{k}{4}(1200h^4+360h^5)\\
+ &\quad+1800\binom{k}{5}h^5+720\binom{k}{6}h^6.
+\end{align*}
+These follow by substituting the coefficients of $\mu_{k,n}$ into
+Newton's recurrence. They hold also when $n<6$ or $k<6$, since the
+corresponding falling factorials vanish. The accompanying verifier
+checks the recurrences as polynomial identities in $k,h$, rather than
+interpolating sampled parameter values, and enumerates all word types
+in the table. This proves both identities.
+\end{proof}
+
+Designolle and Farkas prove conditional moment identities up to length
+five and note that at length six repeated cycles such as $ABCABC$ survive
+their reductions, so no general statement is made there \cite[App.~E]{DF}.
+Identity (M6) shows that, averaged over outcome strings, exactly these
+surviving cycles assemble into the anchored three-fold defects. This
+concerns full averages and is used here for heredity; it does not give
+the conditional sixth moment needed in \cite[App.~E]{DF}.
+
+\begin{theorem}[Low-order heredity of spectral unbiasedness]
+\label{thm:spectralheredity}
+Every spectral $k$-UM, at arbitrary finite rank and outcome number, is
+pairwise mutually unbiased. For $k\geq3$, every three-setting subtuple
+is an algebraic and spectral 3-UM.
+\end{theorem}
+\begin{proof}
+From the second moment alone, \cite[Prop.~6]{DF} obtain pairwise trace
+unbiasedness, $\operatorname{Tr}(P_{a|x}P_{b|y})=r/n$; (M4) upgrades this
+to the operator identities.
+The prescribed characteristic polynomial gives
+$\operatorname{Tr}S^m=rp_m(k,n)$ for each selected sum and every $m$.
+Apply (M4). Every pair defect is nonnegative, so each vanishes.
+A finite average of squared norms vanishes only when every summand
+vanishes, giving every pairwise compression identity. Its reverse
+follows either by exchanging anchors or by equal-rank singular values.
+Now apply (M6). All three anchored defects for every triple vanish,
+giving precisely the algebraic 3-UM identities. The spectral triple
+conclusion follows from the equivalence \cite[Thm.~3(5)]{DF}.
+\end{proof}
+
+\begin{corollary}[Three-outcome spectral no-go at every order]
+\label{cor:spectralthree}
+There is no spectral $k$-UM with three outcomes at any positive finite
+rank for any $k\geq3$.
+\end{corollary}
+\begin{proof}
+Theorem~\ref{thm:spectralheredity} would produce a three-outcome 3-UM,
+contradicting the arbitrary-rank three-outcome no-go theorem \cite[Thm.~5]{DF}.
+For $k=3$ this is already in \cite{DF}; the new cases are $k\geq4$.
+\end{proof}
+
+\section{Quaternionic rigidity at rank two}
+Consider an arbitrary strong triple. The standard
+unitary-block normal form \cite{FKN} represents every rank-two MUM pair
+with computational $P$ by frames whose row blocks are $U_{ab}/2$,
+where the $U_{ab}$ are arbitrary complex $2\times2$ unitaries satisfying
+\[
+ \sum_a U_{ab}^*U_{ab'}=4\delta_{bb'}\id_2,
+ \qquad
+ \sum_b U_{ab}U_{a'b}^*=4\delta_{aa'}\id_2.
+\]
+Row and column frame gauges dephase $U_{a0}=U_{0b}=\id_2$.
+Explicitly, left-multiply row $a$ by $g_a=U_{a0}^*$ and right-multiply
+column $b$ by $h_b=(g_0U_{0b})^*$. These transformations change the
+coordinate frames and the outcome frames, respectively, and preserve the
+measurements up to a common coordinate change.
+Write the row blocks of the third-setting frames as $W_{ac}/2$, with
+$W_{ac}\in U(2)$ satisfying the analogous two orthogonality identities.
+After the same row transformation, the column frame gauges
+$k_c=(g_0W_{0c})^*$ of the third setting set $W_{0c}=\id_2$ without
+changing $P,Q$. Thus $U'_{ab}=g_aU_{ab}h_b$,
+$W'_{ac}=g_aW_{ac}k_c$ and $S'_{bc}=h_b^*S_{bc}k_c$;
+in particular $Z'_{abc}=g_aZ_{abc}g_a^*$.
+Unbiasedness of the second and third settings is equivalent to unitarity of
+\[
+ S_{bc}=\frac12\sum_a U_{ab}^*W_{ac}.
+\]
+No quaternionic restriction has been imposed on these matrices.
+
+\begin{lemma}[Triangle normal form]\label{lem:triangle}
+For pairwise MUM triples in this normal form, the three-fold identities
+are equivalent to
+\[
+ Z_{abc}+Z_{abc}^*=\id_2,
+ \qquad Z_{abc}=U_{ab}S_{bc}W_{ac}^*.
+\]
+If all 64 unitary triangle matrices are nonscalar, the dephased
+$U,W,S$ all lie in $SU(2)$ and give a simultaneous quaternionic
+realization. 
+\end{lemma}
+\begin{proof}
+The $P_a$ block of $P_aQ_bR_cP_a$ is $Z_{abc}/8$, proving the
+first anchored equivalence. Compression to the $Q_b$ and $R_c$ frames
+gives unitary conjugates of the same identity or its adjoint, proving
+equivalence of the other two anchors.
+
+Unitarity and $Z+Z^*=\id_2$ give $Z^2-Z+\id_2=0$, so its eigenvalues
+belong to $\{e^{i\pi/3},e^{-i\pi/3}\}$. A nonscalar $2\times2$
+unitary must have distinct eigenvalues here, hence determinant one.
+Dephasing gives $Z_{0bc}=S_{bc}$, so $\det S_{bc}=1$.
+Then $Z_{a0c}=S_{0c}W_{ac}^*$ forces $\det W_{ac}=1$, and the
+general determinant identity forces $\det U_{ab}=1$. The standard
+$SU(2)$ realization is the unit-quaternion group. The exact verifier
+\texttt{verify\_triangle\_normal\_form.py} checks the constants of this
+lemma on two explicit triples (all 64 triangles each): unitary
+normalization, Hermitian part and determinant.
+\end{proof}
+
+We now remove the nonscalarity hypothesis for four outcomes and rank two.
+
+\begin{lemma}[Balanced pair-phase arrays]\label{lem:phasearray}
+Over $\mathbb F_3$, suppose an array with four values for each index has
+the form $z_{abc}=u_{ab}+s_{bc}-w_{ac}$ and every line sum is zero.
+Then $z_{abc}=0$ everywhere.
+\end{lemma}
+\begin{proof}
+Put $U_b=\sum_a u_{ab}$, $W_c=\sum_a w_{ac}$,
+$A_a=\sum_b u_{ab}$ and $U=\sum_b U_b$.
+Since $4=1$ in $\mathbb F_3$, summing in $a$ gives
+$s_{bc}=W_c-U_b$. Summing in $b$ then gives
+$w_{ac}=A_a+W_c-U$.
+Hence $z_{abc}=u_{ab}-U_b-A_a+U$ is independent of $c$.
+Its sum over $c$ is therefore $4z_{abc}=z_{abc}$, which vanishes by
+hypothesis.
+\end{proof}
+
+\begin{theorem}[Scalar exclusion and simultaneous quaternionic rigidity]
+\label{thm:quaternionrigidity}
+Every four-outcome rank-two algebraic 3-UM on $\mathbb C^8$ has no scalar
+triangle matrices. In dephased frame coordinates all $U,W,S$ lie in
+$SU(2)$, giving three quaternionic orthonormal bases on $\mathbb H^4$.
+Equivalently the three PVMs admit a common antiunitary $\Theta$ with
+$\Theta^2=-\id_8$ commuting with every outcome projector.
+\end{theorem}
+\begin{proof}
+By Lemma~\ref{lem:triangle}, a triangle $Z$ is unitary with eigenvalues
+in $\{e^{i\pi/3},e^{-i\pi/3}\}$. Put $\omega=e^{2\pi i/3}$.
+There is a uniquely determined integer $z_{abc}\in\{-1,0,1\}$ such that
+\[
+ \det Z_{abc}=\omega^{z_{abc}},\qquad
+ \operatorname{tr}Z_{abc}=1+i\sqrt3\,z_{abc}.
+\]
+Here $z=0$ is the nonscalar case; $z=\pm1$ is scalar.
+
+Completeness of the three frame arrays gives
+\[
+ \sum_a\operatorname{tr}Z_{abc}=4,\qquad
+ \sum_b\operatorname{tr}Z_{abc}=4,\qquad
+ \sum_c\operatorname{tr}Z_{abc}=4.
+\]
+For the first equality, cycle the trace and use
+$\sum_a W_{ac}^*U_{ab}=2S_{bc}^*$.
+For the second, use $\sum_b U_{ab}S_{bc}=2W_{ac}$, and for the third
+use $\sum_c S_{bc}W_{ac}^*=2U_{ab}^*$.
+These follow directly from the definition of $S$ and the two frame
+orthogonality identities. Taking imaginary parts proves that every line
+sum of the integer array $z$ is zero.
+
+Dephasing $U_{0b}=U_{a0}=W_{0c}=\id_2$ gives
+$\det S_{bc}=\det Z_{0bc}$ and
+$\det W_{ac}=\det S_{0c}/\det Z_{a0c}$.
+The determinant of any general triangle then shows that all
+$\det U_{ab}$ are also powers of $\omega$. Choose exponents
+$u_{ab},s_{bc},w_{ac}\in\mathbb F_3$ for these block determinants.
+Their multiplicative relation is exactly
+$z_{abc}=u_{ab}+s_{bc}-w_{ac}$ modulo three.
+Lemma~\ref{lem:phasearray} forces $z=0$ modulo three; since the integer
+values are $-1,0,1$, every one is actually zero. Thus scalar triangles
+are impossible. Lemma~\ref{lem:triangle} now gives $U,W,S\in SU(2)$.
+
+The standard identification of $SU(2)$ with unit quaternions makes the
+frame arrays quaternionic orthonormal bases. In these coordinates
+$\Theta=(\id_4\otimes i\sigma_y)\mathcal K$, with $\mathcal K$ complex
+conjugation, has square $-\id_8$ and commutes with every quaternionic
+block and hence every outcome projector. Conjugating coordinates back
+proves the invariant antiunitary statement.
+\end{proof}
+
+The determinant-phase calculation is also independently checked by exact
+linear algebra over $\mathbb F_3$: the pair-phase array map and its line-sum
+map both have rank 37. See
+\texttt{verify\_scalar\_triangle\_exclusion.py}. The trace and frame steps
+above are analytic and do not rely on searching for scalar examples.
+This theorem resolves the scalar regime and gives a global quaternionic
+reduction. It does not classify the resulting coupled quaternionic
+Hadamard triples or show that an arbitrary first pair is real-Hadamard.
+
+\section{Equivalence of the four-setting definitions}
+The following reductions concern four rank-two settings whose every
+three-setting subtuple is a strong triple. This is a necessary condition
+for an algebraic 4-UM by heredity, and now also for a spectral 4-UM by
+Theorem~\ref{thm:spectralheredity}.
+
+\begin{corollary}[A common quaternionic structure for the quartet]
+\label{cor:quartetquaternion}
+If every three-setting subtuple of four four-outcome rank-two PVMs is an
+algebraic 3-UM, all sixteen projectors commute with one antiunitary
+$\Theta$ satisfying $\Theta^2=-\id_8$.
+\end{corollary}
+\begin{proof}
+Fix and dephase the first pair once. Apply
+Theorem~\ref{thm:quaternionrigidity} to its completion by the third
+setting, and then by the fourth. The row gauges for the first pair
+are the same in both applications. Only the individual outcome-frame
+gauges of the completing settings differ; these do not change their
+projectors. Both applications therefore put all frame blocks in the
+same copy of $SU(2)$ and yield the same standard antiunitary.
+\end{proof}
+
+\begin{theorem}[Conditional algebraic--spectral equivalence at rank two]
+\label{thm:conditionalfour}
+Under the hypothesis of Corollary~\ref{cor:quartetquaternion}, the quartet
+is an algebraic 4-UM if and only if every sum of four selected outcomes
+has complex characteristic polynomial
+\[
+ \left(t^4-4t^3+\frac92t^2-\frac32t+\frac3{32}\right)^2.
+\]
+\end{theorem}
+\begin{proof}
+Use the common quaternionic coordinates. Each selected outcome is a
+rank-one quaternionic projection $A_i$ on $\mathbb H^4$.
+Write $\tau$ for the real quaternionic trace, equivalently half the
+complex trace, and $B=\sum_{i=1}^4 A_i$. Pairwise and triple relations give
+\[
+ \tau(A_i)=1,\quad \tau(A_iA_j)=\frac14,\quad
+ \tau(A_iA_jA_k)=\frac1{16}\quad(i,j,k\text{ distinct}).
+\]
+For the last equality, compress the triple identity by $A_i$ and use
+real-trace cyclicity and reversal. Expanding powers gives
+\[
+ \tau(B)=4,\qquad \tau(B^2)=7,\qquad
+ \tau(B^3)=\frac{29}2.
+\]
+In the fourth power, words with multiplicities $4$, $3+1$, $2+2$,
+and $2+1+1$ contribute respectively $4$, $12$, $27/4$, and $9$.
+For $2+2$, use $A_iA_jA_i=A_i/4$; for $2+1+1$, cyclicity either
+removes an adjacent repeated projector or permits the same pairwise
+compression. The remaining contribution is
+\[
+ 4\tau\left(\sum_{\pi\in S_3}
+ A_1A_{\pi(2)}A_{\pi(3)}A_{\pi(4)}A_1\right).
+\]
+The four-fold identity makes this $3/8$, hence
+$\tau(B^4)=257/8$. Newton's identities give the displayed quartic
+for the four quaternionic eigenvalues. Each occurs twice in the complex
+representation, proving the forward direction.
+
+Conversely, the displayed characteristic polynomial fixes
+$\tau(B^4)=257/8$. The same word expansion fixes the real trace of
+the anchored six-word sum to $3/32$. That sum is Hermitian, commutes
+with the common quaternionic structure, and is supported on a rank-one
+quaternionic subspace. It is therefore a real scalar times $A_1$.
+Its trace proves that scalar is $3/32$. Real-trace cyclicity shows the
+same six-cycle trace for every anchor, proving all four-fold identities.
+The lower-order identities already hold by hypothesis.
+\end{proof}
+
+\begin{corollary}[Equivalence for four outcomes at rank two]
+\label{cor:unconditionalfour}
+For four four-outcome rank-two PVMs on $\mathbb C^8$, algebraic and
+spectral 4-UMs coincide. In particular, every rank-two strong triple
+covered by our algebraic nonextension theorems also has no spectral
+four-fold extension.
+\end{corollary}
+\begin{proof}
+Algebraic 4-UMs have strong subtriples by heredity. Spectral 4-UMs do
+so by Theorem~\ref{thm:spectralheredity}. In either case
+Theorem~\ref{thm:conditionalfour} applies. Nonextension follows by
+the equivalence. This argument does not extend the equivalence to
+higher rank, where quaternionic rank-one compression is unavailable.
+By Corollary~\ref{cor:globalnonexistence} both classes turn out to be
+empty; the role of this corollary is to transfer the algebraic
+obstruction to the spectral definition.
+\end{proof}
+
+The equivalence alone does not decide existence.
+Theorem~\ref{thm:globalcommuting} below establishes global commuting-pair
+necessity, and Corollary~\ref{cor:globalnonexistence} excludes four-setting
+tuples in this outcome and rank regime.
+
+\begin{corollary}[A two-moment characterization]
+\label{cor:twomoment}
+A quartet of four-outcome rank-two PVMs is an algebraic and spectral
+4-UM if and only if
+\[
+ \operatorname{Tr}S_{\vec a}^4=\frac{257}{4}
+ \quad\text{for every outcome string},\qquad
+ \mathbb E\operatorname{Tr}S_{\vec a}^6=\frac{5441}{16}.
+\]
+\end{corollary}
+\begin{proof}
+The target spectrum gives both moments by Newton's identities.
+Conversely, the first condition gives equality in (M4), so every pair
+is mutually unbiased. The second gives equality in (M6), so every
+triple is strong. Common quaternionic rigidity then applies, and the
+pointwise fourth moment supplies the anchored four-fold scalar in the
+proof of Theorem~\ref{thm:conditionalfour}. No assumption about higher
+spectral moments is needed in this converse.
+\end{proof}
+
+\section{The commuting-pair extension obstruction}
+\begin{theorem}[Uniform commuting-pair nonextension]
+\label{thm:commutingnonextension}
+Every four-outcome rank-two strong triple containing a pair with
+commuting canonical blocks forbids an algebraic or spectral fourth
+setting.
+\end{theorem}
+\begin{proof}[Outline of the proof]
+Quaternionic rigidity and the order-four complex Hadamard classification
+put a commuting pair in a one-parameter normal form. For every nonreal
+phase, the strong-triple equations classify third outcomes into eight
+signed circles; orthogonality reduces complete third measurements to one
+normal form. The fourth-setting moment constraints force its centered
+outcomes $D=T-\id/4$ to anticommute with a fixed involution, giving
+$\operatorname{Tr}D^3=0$. A rank-two projector in dimension eight instead
+has $\operatorname{Tr}(T-\id/4)^3=3/4$, a contradiction.
+An explicit positive Gram factorization makes this argument uniform over
+all parameters. The real-phase case follows from the fixed-real-pair
+classification and obstruction. Appendix~\ref{app:commutingproof} gives
+the complete classification and algebra; Appendix~\ref{app:fixedpair}
+handles the real-phase case. Spectral nonextension follows from
+Corollary~\ref{cor:unconditionalfour}.
+For a commuting pair the antiunitary commuting with both settings is not
+unique; throughout we use the standard one in the shared dephased
+coordinates of the first pair, as in Corollary~\ref{cor:quartetquaternion}.
+\end{proof}
+
+\section{Global obstruction at rank two}
+\subsection{Normal form of a noncommuting first pair}
+For a Hermitian involution with zero diagonal in a four-outcome basis,
+its \emph{support graph} has an edge $ab$ when $X_{ab}\ne0$.
+Call the support full when all six edges are present.
+\begin{lemma}[Coarse-support dichotomy]\label{lem:coarsesupport}
+For any quaternionic four-outcome MUM pair $P,Q$, consider the three
+balanced involutions
+$Q_0+Q_1-Q_2-Q_3$, $Q_0-Q_1+Q_2-Q_3$ and
+$Q_0-Q_1-Q_2+Q_3$ in the $P$ basis.
+If the pair's canonical blocks commute, all three supports are non-full.
+If they do not commute, at most one support is non-full.
+In particular, if any one of the three supports is a matching, the
+canonical blocks commute.
+\end{lemma}
+\begin{proof}
+Two distinct vertices cannot have exactly one common neighbor, since
+then an off-diagonal entry of $X^2$ would be a single nonzero product.
+Every vertex has positive degree. The only possible graphs on four
+vertices are therefore a matching, a four-cycle or the full graph.
+
+A matching involution can be row-gauged and permuted to
+$X=\bigl(\begin{smallmatrix}0&1&0&0\\1&0&0&0\\
+0&0&0&1\\0&0&1&0\end{smallmatrix}\bigr)$.
+For either other balanced involution $Y$, commutation with $X$ and the
+zero diagonals of $Y,XY$ give
+\[
+ Y=\begin{pmatrix}0&0&a&b\\0&0&b&a\\
+ \bar a&\bar b&0&0\\\bar b&\bar a&0&0\end{pmatrix},
+ \qquad |a|^2+|b|^2=1,\quad\operatorname{Re}(a\bar b)=0.
+\]
+A further gauge preserving $X$ makes one nonzero entry real and the
+other purely imaginary. All three involutions, and hence the four
+projectors, lie in a common complex subfield. The canonical pair commutes.
+
+For a four-cycle, a tree gauge makes three edges real, and $X^2=I$
+forces the remaining cycle product to be negative real. After relabeling,
+\[
+ X=\begin{pmatrix}0&0&r&s\\0&0&s&-r\\r&s&0&0\\s&-r&0&0\end{pmatrix},
+ \qquad rs\ne0,\quad r^2+s^2=1.
+\]
+The same commutation and diagonal conditions give, exhaustively,
+\[
+ Y=\begin{pmatrix}
+ 0&a&sf&-rf\\-a&0&-rf&-sf\\
+ -sf&rf&0&-a\\rf&sf&a&0
+ \end{pmatrix},\qquad
+ \bar a=-a,\quad\bar f=-f.
+\]
+Here $Y^2=I$ gives $|a|^2+|f|^2=1$ and
+$\operatorname{Re}(a\bar f)=0$. If $Y$ is also non-full, then $a=0$
+or $f=0$, making $XY$ or $Y$, respectively, a matching involution.
+Thus two non-full supports force canonical commutativity.
+
+Finally, a full-support involution can be row-gauged to
+\begin{equation}\label{eq:fullcoarsenormal}
+ X=\begin{pmatrix}
+ 0&r&s&t\\r&0&t\mathbf i&-s\mathbf i\\
+ s&-t\mathbf i&0&r\mathbf i\\
+ t&s\mathbf i&-r\mathbf i&0
+ \end{pmatrix},\quad r,s,t>0,\quad r^2+s^2+t^2=1.
+\end{equation}
+To see this, make the first-row edges positive real; the off-diagonal
+square equations force the three remaining edges to be scalar multiples
+of one imaginary quaternion, and the off-diagonal equations among the
+indices $1,2,3$ give their magnitudes $t,s,r$ (for example
+$|X_{23}|=r$); the diagonal equations give $r^2+s^2+t^2=1$.
+A common conjugation sets the direction to $\mathbf i$.
+The only imaginary block-diagonal complex structure commuting with this
+$X$ is, up to sign, $J=\mathbf i I$.
+On either $e_\pm$, put $T_a=e_\pm P_a e_\pm-e_\pm/4$. A direct
+computation gives the real Gram matrix $\tau(T_aT_b)=1/8$ for $a=b$ and
+$|X_{ab}|^2/4-1/8$ for $a\neq b$. Its eigenvectors are the constant vector
+and the three Walsh sign vectors, with eigenvalues $0,r^2/2,s^2/2,t^2/2$.
+Only the moduli $|X_{ab}|$ enter, so for $X=\Gamma(n)$ (notation of
+Section~\ref{sec:globalexhaustion}) with any unit vector $n$, including
+vectors with negative or zero coordinates, the eigenvalues are $0$ and
+$n_i^2/2$. They span the three-dimensional traceless
+Hermitian subspace commuting with $J$. A traceless supported matrix
+with zero $P$ diagonal therefore anticommutes with $J$.
+If the canonical pair $P,Q$ commuted, its blocks would lie in one complex
+subfield $\mathbb C_\mu$ in some gauge, and $\mu I$ would be a complex
+structure commuting with both settings. That gauge and the full-support
+gauge both make $P$ computational, so they differ by a monomial
+quaternionic unitary, which sends $\mu I$ to a diagonal of imaginary
+units. Hence this complex structure would have to equal $J$ up to sign. But the
+nonzero differences of $Q$ outcomes supported on $e_\pm$ would then
+both commute and anticommute with $J$, a contradiction.
+This excludes full support for a commuting pair and finishes the dichotomy.
+\end{proof}
+
+\begin{corollary}[One projector chart for every noncommuting first pair]
+\label{cor:unifiedpairchart}
+Every noncommuting quaternionic four-outcome MUM pair is equivalent,
+up to coordinate gauge and outcome relabelling, to the following
+three-parameter family. Choose real variables with
+\[
+ r^2+h^2=c^2+d^2=a^2+b^2=1,\qquad r,h,c,d>0.
+\]
+Let $V$ be the full-support matrix \eqref{eq:fullcoarsenormal} with
+$s=hc$, $t=hd$, and put $E_\sigma=(I+\sigma V)/2$. Define complex
+skew-symmetric matrices by their upper-triangular entries:
+\[
+\begin{aligned}
+ (G_\sigma)_{01}&=h/2,&
+ (G_\sigma)_{02}&=(-rc-\sigma i d)/2,&
+ (G_\sigma)_{03}&=(-rd+\sigma i c)/2,\\
+ (G_\sigma)_{12}&=(-\sigma c-i rd)/2,&
+ (G_\sigma)_{13}&=(-\sigma d+i rc)/2,&
+ (G_\sigma)_{23}&=i h/2.
+\end{aligned}
+\]
+Here $i$ denotes the same complex subfield as $\mathbf i$.
+With $A_+=(a+i b)G_+\mathbf j$ and
+$A_-=(a-i b)G_-\mathbf j$, the second
+setting is
+\[
+ Q_0=(E_++A_+)/2,\quad Q_1=(E_+-A_+)/2,\quad
+ Q_2=(E_-+A_-)/2,\quad Q_3=(E_--A_-)/2.
+\]
+All entries are polynomial in the six circle coordinates. The
+parametrization need not be unique. It is a parametrization of order-four
+quaternionic Hadamard matrices with a noncommuting canonical form;
+compare the classification of \cite[Thm.~4.6]{CD} and the use of these
+families in \cite[Sec.~2.5]{FKN}.
+\end{corollary}
+\begin{proof}
+A noncommuting pair has at least two full balanced coarse supports by
+Lemma~\ref{lem:coarsesupport}. Select one and use its full-support gauge.
+The differences of the two outcomes on each $E_\sigma$ are supported,
+zero-$P$-diagonal Hermitian involutions. By the last paragraph of the
+proof of Lemma~\ref{lem:coarsesupport}, each anticommutes with $J$, so it
+has the form $D\mathbf j$ with $D$ complex skew-symmetric. Support on
+$E_\sigma$ places $D$ in the exterior square of the two-dimensional range
+of $E_\sigma$, a one-dimensional complex space spanned by $G_\sigma$.
+Hence each difference is $\lambda_\sigma G_\sigma\mathbf j$, and the
+involution condition gives $|\lambda_\sigma|=1$.
+Conjugation by a common scalar complex phase preserves $P,V$ and rotates
+both circles by the same angle. Remove their mean angle, giving opposite
+phases $a+i b$ and $a-i b$. Every relative unit phase has a square root,
+so this symmetric convention covers every pair. This proves coverage.
+Conversely, the displayed matrices satisfy $A_\sigma^2=E_\sigma$ and
+$VA_\sigma=\sigma A_\sigma$. They give four quaternionic rank-one
+orthogonal projectors, each with $P$ diagonal $1/4$, hence a MUM pair.
+Its full balanced support excludes canonical commutativity.
+The symbolic verifier checks these projector and MUM identities modulo
+the three circle equations.
+\end{proof}
+
+\subsection{Full proof of global commuting-pair necessity}\label{sec:globalexhaustion}
+Write $\Gamma(m)$ for the matrix in \eqref{eq:fullcoarsenormal}, with
+$m=(r,hc,hd)$, and use $\Gamma$ for the real-linear extension of this
+formula to all of $\mathbb R^3$. It satisfies
+$\Gamma(a)\Gamma(b)+\Gamma(b)\Gamma(a)=2(a\cdot b)I$, which gives
+$E_n\Gamma(m)E_n=(n\cdot m)E_n$ below. Use the symmetric convention of
+Corollary~\ref{cor:unifiedpairchart}:
+\[
+ A_+=(a+ib)G_+\mathbf j,\qquad A_-=(a-ib)G_-\mathbf j,
+ \qquad a^2+b^2=1.
+\]
+Throughout this section $P$ and $Q$ are the fixed first two settings;
+$T$ denotes one outcome of a prospective third setting. Define
+\[
+ u=(ah,-arc+bd,-ard-bc),\quad
+ v=(bh,-brc-ad,-brd+ac),\quad w=-m.
+\]
+These vectors form an oriented orthonormal basis, $u\times v=w$.
+The first-row entries of $2(a+ib)G_+$ are $u+iv$; the opposite entries
+are $i(u_0+iv_0),-i(u_1+iv_1),i(u_2+iv_2)$.
+For $G_-$ they are the complex conjugates of the first-row entries,
+and the negatives of the conjugates of the opposite entries.
+
+
+\begin{lemma}[Normalization of the single-zero stratum]
+\label{lem:stratumsymmetry}
+In the symmetric chart above, if exactly one coordinate among $u,v$
+vanishes, allowed coordinate gauges and outcome relabellings preserve
+the selected full coarse-graining and put the chart in the form
+\[
+ v_0=0,\qquad a=1,\quad b=0,\qquad
+ u=(h,-rc,-rd),\quad v=(0,-d,c).
+\]
+The transformed parameters still satisfy $r,h,c,d>0$ and both circle
+identities. These operations preserve every strong-triple identity.
+\end{lemma}
+\begin{proof}
+Put $B=A_++A_-$ and $C=A_+-A_-$, the other two balanced
+coarse-grainings of $Q$. Their first-row entries are respectively
+$u_i\mathbf j$ and $v_i\mathbf k$; their opposite entries are
+$\epsilon_i u_i\mathbf k$ and $-\epsilon_i v_i\mathbf j$,
+where $\epsilon=(1,-1,1)$ refers to edges $23,13,12$.
+A permutation $\rho$ of the last three computational coordinates
+permutes the three coordinates of $m$. For an odd permutation,
+simultaneous conjugation by $\mathbf j$ restores the displayed
+$\Gamma(m)$ convention, since it reverses $\mathbf i$ and
+$\mathbf k$ while fixing $\mathbf j$.
+Consequently the transformed vectors are
+$u'=\rho u$, $v'=(\operatorname{sgn}\rho)\rho v$, and
+$m'=\rho m$, with the same positive first-row gauge.
+The transformed pair is again exactly in the symmetric chart: the
+supported skew part on each $E'_\sigma$ is one complex dimension, so
+its first row determines it, and since the $B$ entries are multiples of
+$\mathbf j$ and the $C$ entries multiples of $\mathbf k$ the two phases
+remain complex conjugate. Orientation is kept because
+$\rho u\times(\operatorname{sgn}\rho)\rho v=-\rho m$.
+Reparametrize it by $r=m'_0$, $h=\sqrt{(m'_1)^2+(m'_2)^2}$,
+$c=m'_1/h$, $d=m'_2/h$; all four remain positive.
+Choose $\rho$ to move the zero to index zero.
+
+If that zero belongs to $u$, interchange $Q_2,Q_3$, so
+$A_-\mapsto-A_-$ and $B,C$ are exchanged. Simultaneous conjugation
+by $\exp(-\mathbf i\pi/4)$ then gives
+$(u,v)\mapsto(v,-u)$: it sends $\mathbf j$ to $-\mathbf k$
+and $\mathbf k$ to $\mathbf j$, and fixes $\Gamma(m)$.
+Thus in either case $v_0=0$. In the symmetric chart $v_0=bh$ and
+$h>0$, hence $b=0$ and $a=\pm1$.
+If needed, interchange the two outcomes on both $E_+$ and $E_-$;
+this negates both $A_\pm$, replacing $(a,b)$ by $(-a,-b)$.
+We may therefore take $a=1$, which gives the stated vectors.
+All operations are simultaneous quaternionic unitary gauges or
+outcome permutations. They preserve the measurement equations and
+the selected coarse-graining, up to its explicitly recorded coordinate
+permutation and gauge.
+\end{proof}
+
+\begin{theorem}[Global commuting-pair necessity]
+\label{thm:globalcommuting}
+Every four-outcome rank-two strong triple contains a pair with commuting
+canonical blocks, equivalently a pair that is a direct sum of mutually
+unbiased bases.
+\end{theorem}
+\begin{proof}
+Quaternionic rigidity reduces to quaternionic rank-one projectors. If
+any pair commutes, there is nothing to prove. Otherwise fix its chart
+$P,Q$ above and classify every possible third outcome $T$.
+Write $T=C+D\mathbf j$, where $C$ is complex Hermitian and $D$ complex
+skew-symmetric. The $P$ diagonal of $C$ is $1/4$. Put
+\[
+ \xi=(D_{01},D_{02},D_{03})=x+iy.
+\]
+By Proposition~\ref{prop:globalkernels}, the strong equations are
+equivalent to the real-trace moment conditions for $T-I/4$.
+Substituting the displayed first-pair chart and $T=C+D\mathbf j$,
+these split into the complex conditions
+\begin{equation}\label{eq:globalClinear}
+ \operatorname{diag}(C\Gamma(m)+\Gamma(m)C)=0
+\end{equation}
+and real row-contraction conditions against $(a\pm ib)G_\pm$.
+To make the linear reduction explicit, let the opposite edges to
+$01,02,03$ be $23,13,12$, and put $\epsilon=(1,-1,1)$.
+Write their $D$ entries as $\zeta_i=s_i+it_i$. The first-row and
+opposite-edge contraction weights against the two phased $G$ matrices
+are, respectively,
+\[
+ \tfrac12(u_i x_i+v_i y_i),\quad
+ \tfrac12\epsilon_i(u_i t_i-v_i s_i),\qquad
+ \tfrac12(u_i x_i-v_i y_i),\quad
+ \tfrac12\epsilon_i(u_i t_i+v_i s_i).
+\]
+For symmetric real edge weights on four vertices, zero row sums are
+equivalent to equality of opposite weights and a zero sum of the three
+first-row weights: signed combinations of the four row equations give
+the opposite equalities, and their common remaining equation is that sum.
+Adding and subtracting the two phased systems therefore gives
+\[
+ u_i(x_i-\epsilon_i t_i)=0,\qquad
+ v_i(y_i+\epsilon_i s_i)=0,\qquad
+ \sum_i u_i x_i=\sum_i v_i y_i=0.
+\]
+Consequently, if $u_i v_i\ne0$ for every $i$, these conditions are exactly
+\begin{equation}\label{eq:globalDlinear}
+ D_{23}=i\xi_0,\quad D_{13}=-i\xi_1,\quad D_{12}=i\xi_2,
+ \qquad x\cdot u=y\cdot v=0.
+\end{equation}
+At an index where $v_i=0$ the real part of the corresponding opposite
+entry is free; the analogous statement holds when $u_i=0$.
+There is at most one zero among the six coordinates of $u,v$.
+Indeed, two zeros in one vector contradict its orthogonality to the
+strictly nonzero vector $w$. Zeros in different vectors at different
+indices force a second zero by $u\cdot v=0$; at the same index they
+force $w$ to be a coordinate vector. This exhausts the possible strata.
+
+\emph{Complex outcomes.} If $D=0$, choose a normalized frame
+$(1,e^{i\alpha},e^{i\beta},e^{i\gamma})/2$ for $T$.
+Equation~\eqref{eq:globalClinear} gives
+\[
+ \cos\alpha=\sin(\beta-\gamma),\quad
+ \cos\beta=\sin(\gamma-\alpha),\quad
+ \cos\gamma=\sin(\alpha-\beta).
+\]
+For the vectors of cosines and sines this says $A=B\times A$.
+Its scalar product with $A$ forces $A=0$. Thus the eight frames are
+\begin{equation}\label{eq:globaleightcomplex}
+ (1,i\varepsilon_0,i\varepsilon_1,i\varepsilon_2)/2,
+ \qquad \varepsilon_i\in\{1,-1\}.
+\end{equation}
+They split into two orthonormal settings according to the product of
+the three signs. Both commute canonically with $P$.
+
+\emph{Nonzero $D$ without a zero coordinate.}
+Since $T$ has quaternionic rank one, $D$ has complex rank two and
+vanishing Pfaffian. Under \eqref{eq:globalDlinear} its Pfaffian is
+$i\xi\cdot\xi$, so $x\cdot y=0$ and $|x|=|y|>0$.
+Write
+\[
+ x=\alpha v+\beta w,\qquad y=\gamma u+\delta w.
+\]
+These relations give $\beta\delta=0$ and
+$\alpha^2+\beta^2=\gamma^2+\delta^2$.
+An entrywise multiplication gives
+\[
+ DD^*=N I-2\Gamma(x\times y)=2N E_n,\qquad
+ N=|x|^2+|y|^2,\quad E_n=(I+\Gamma(n))/2,
+ \quad n=-\frac{x\times y}{|x|^2}.
+\]
+For clarity, write a normalized quaternionic outcome frame as
+$Z+W\mathbf j$, with complex columns $Z,W$. Then
+$C=ZZ^*+WW^*$ and $D=WZ^{\mathsf T}-ZW^{\mathsf T}$.
+Since $D\ne0$, the columns are independent, so both matrices have the
+same two-dimensional complex range, namely $E_n$.
+Because $E_n\Gamma(m)E_n=(n\cdot m)E_n$ and
+$\operatorname{tr}C=1$, summing \eqref{eq:globalClinear} gives
+$n\cdot m=0$, equivalently $\alpha\gamma=0$.
+Together these equations force $n=\pm u$ or $n=\pm v$ and
+\[
+ \xi=t(v-isw)\quad\text{or}\quad \xi=t(w-isu),
+ \qquad s\in\{1,-1\},\quad t\in\mathbb R\setminus\{0\}.
+\]
+All coordinates of $n$ are nonzero. The compressed-diagonal span in
+Lemma~\ref{lem:coarsesupport}, applied to $E_n$, forces $C=E_n/2$.
+The complex part of $T^2=T$ then gives $DD^*=E_n/4$, hence $t=\pm1/4$.
+There are exactly four outcomes of each type.
+
+\emph{The single-zero stratum.}
+By Lemma~\ref{lem:stratumsymmetry}, we may take $a=1,b=0$
+without omitting any single-zero case or changing the strong identities.
+Thus, exhaustively,
+\[
+ u=(h,-rc,-rd),\quad v=(0,-d,c),\quad w=(-r,-hc,-hd),
+\]
+and the linear conditions replace \eqref{eq:globalDlinear} only by
+\[
+ D_{23}=i\xi_0+\kappa,\qquad \kappa\in\mathbb R.
+\]
+The remaining two opposite entries and the orthogonality conditions
+are unchanged. The Pfaffian equations become
+\begin{equation}\label{eq:globalexceptioncone}
+ \beta(2\delta+r\kappa)=0,\qquad
+ \alpha^2+\beta^2-\gamma^2-\delta^2
+       +\kappa(h\gamma-r\delta)=0.
+\end{equation}
+
+If $\kappa=0$, the preceding argument again gives $n=\pm u,\pm v$.
+Only $n=\pm v$ has a zero coordinate. The supported complex Hermitian
+matrices with zero diagonal in $E_{sv}$ form the real line generated by
+\[
+ H_s=\begin{pmatrix}
+ 0&-1&-isc&-isd\\-1&0&sd&-sc\\
+ isc&sd&0&i\\isd&-sc&-i&0
+ \end{pmatrix}.
+\]
+The Gram computation in Lemma~\ref{lem:coarsesupport}, specialized
+to $n=sv$ with one zero coordinate, has eigenvalues
+$0,0,c^2/2,d^2/2$, of which exactly two are nonzero.
+It therefore leaves one traceless complex Hermitian direction on the
+rank-two space $E_{sv}$; the displayed $H_s$ spans that direction.
+The verifier independently confirms this one-dimensional kernel by an
+exact rank-eleven minor.
+Its Jordan diagonal with $\Gamma(m)$ is $r(-2,-2,2,2)$.
+Thus \eqref{eq:globalClinear} kills this extra line, since $r>0$,
+and the same eight noncomplex outcomes remain.
+
+Suppose now $\kappa\ne0$. Dephase the quaternionic outcome frame as
+$(1,z_0-4\xi_0\mathbf j,z_1-4\xi_1\mathbf j,
+ z_2-4\xi_2\mathbf j)/2$, where $z=A+iB$ and $A,B$ are real.
+The interior $D$ entries and \eqref{eq:globalClinear} give
+\begin{equation}\label{eq:globalframeequations}
+ \xi\times z=-i\xi-\kappa e_0,\qquad
+ A+A\times B+16x\times y=0,\qquad m\cdot A=0.
+\end{equation}
+The three coordinate norms are
+\begin{equation}\label{eq:globalframenorms}
+ A_i^2+B_i^2+16(x_i^2+y_i^2)=1.
+\end{equation}
+Write $A=p u+q v$ and $B=t u+\ell v+n w$.
+The real and imaginary parts of the cross equation are, respectively,
+\begin{align*}
+ -\beta q+\delta\ell&=\gamma-\kappa h,&
+ \beta p+\gamma n-\delta t&=0,&
+ -\alpha p-\gamma\ell&=\delta+\kappa r,\\
+ \alpha n-\beta\ell-\delta q&=0,&
+ \beta t+\delta p&=-\alpha,&
+ -\alpha t+\gamma q&=-\beta.
+\end{align*}
+The remaining strong equations are
+\begin{equation}\label{eq:globalstrongcoordinates}
+ p+qn+16\alpha\delta=0,\quad
+ q-pn+16\beta\gamma=0,\quad
+ p\ell-qt-16\alpha\gamma=0.
+\end{equation}
+There are only two branches in \eqref{eq:globalexceptioncone}.
+
+If $\beta=0$ and $\alpha\ne0$, then $\delta\ne0$, and the linear
+system gives
+$p=-\alpha/\delta$, $q=\alpha n/\delta$,
+$t=\gamma n/\delta$, $\ell=(\gamma-\kappa h)/\delta$.
+Equations~\eqref{eq:globalstrongcoordinates} force
+$n=0$, $\delta^2=1/16$ and $\gamma=h\kappa/2$.
+The Pfaffian gives
+$\alpha^2=\delta^2+\kappa r\delta-\kappa^2h^2/4$.
+Substituting in the last two norms yields $1+16\kappa r\delta=1$,
+a contradiction. Thus this branch has $\alpha=\beta=0$.
+
+On the other branch $\delta=-r\kappa/2$, put
+$g=\gamma-h\kappa/2$ and $L=\beta^2+\delta^2>0$.
+The Pfaffian gives
+$g^2=\alpha^2+\beta^2+\kappa^2/4$ and
+$L+\alpha^2=\gamma(\gamma-h\kappa)$.
+In particular neither factor on the right vanishes. The linear system
+has the uniform solution
+\[
+ p=-\frac{\alpha\delta+\beta\gamma n}{L},\quad
+ q=\frac{\alpha\delta n-\beta(\gamma-h\kappa)}{L},\quad
+ t=\frac{\delta\gamma n-\alpha\beta}{L},\quad
+ \ell=\frac{\delta(\gamma-h\kappa)+\alpha\beta n}{L}.
+\]
+The last strong equation reduces to
+\[
+ -\frac{\alpha}{L}
+ \bigl[\gamma(n^2+16L+1)-h\kappa\bigr]=0.
+\]
+The bracket can vanish only if $h\kappa/\gamma=n^2+16L+1>1$. But
+$h\kappa/\gamma<1$: since $g^2\geq\kappa^2/4$, we have
+$|g|\geq|\kappa|/2>h|\kappa|/2$, so $\gamma=g+h\kappa/2$ has the sign of
+$g$. If $g\kappa<0$ the ratio is therefore negative; otherwise
+$g/\kappa\geq1/2$ and the ratio is at most $2h/(1+h)<1$. Since $L>0$,
+this forces $\alpha=0$. Then the first strong equation reads
+$-\beta n(2\gamma-h\kappa)/L=0$, and $2\gamma-h\kappa=2g\neq0$. So if
+$\beta\ne0$, the first two strong equations give $n=0$ and
+$\gamma^2=1/16$. The last two norms become
+$1-h\kappa/\gamma=1$, again impossible. Hence $\beta=0$ as well.
+All nonzero-$\kappa$ solutions therefore have $x=0$.
+
+Taking a scalar product of the middle equation in
+\eqref{eq:globalframeequations} with $A$ now gives $A=0$.
+Write $y=(f,ec,ed)$, as required by $y\cdot v=0$.
+The cross equation excludes $y=0$. The Pfaffian gives
+$\kappa f=f^2+e^2$, so $f\ne0$.
+The last two cross equations give
+\[
+ B_1=(e/f)(cB_0-d),\qquad B_2=(e/f)(dB_0+c).
+\]
+The first norm is $B_0^2+16f^2=1$; the other two reduce to
+$(e^2/f^2)(1-2cdB_0)=1$ and
+$(e^2/f^2)(1+2cdB_0)=1$.
+They force $B_0=0$, $e=\pm f$, $f=\pm1/4$ and $\kappa=2f$.
+The four additional frames are consequently
+\begin{equation}\label{eq:globalmixedfour}
+ (1,\varepsilon\mathbf k,
+ \eta(-d\mathbf i+\varepsilon c\mathbf k),
+ \eta(c\mathbf i+\varepsilon d\mathbf k))/2,
+ \qquad \varepsilon,\eta\in\{1,-1\}.
+\end{equation}
+This finishes outcome exhaustion, including all exceptional kernels.
+
+\emph{Completeness and canonical commutativity.}
+The sixteen ordinary outcomes split into four sets of four: the two
+sign-product classes in \eqref{eq:globaleightcomplex}, and the $u$ and
+$v$ types. Distinct outcomes in one class have overlap
+$\tau(TT')=0$; outcomes in different ordinary classes have overlap $1/4$.
+The exceptional four in \eqref{eq:globalmixedfour} are also mutually
+orthogonal. Their overlaps with the two complex classes and the $u,v$
+classes are respectively among
+$(1\pm c)/4$, $(1\pm d)/4$, $(1\pm h)/4$, $(1\pm r)/4$.
+All are strictly positive because $r,h,c,d\in(0,1)$.
+Thus the orthogonality graph is four disjoint complete graphs on four
+vertices, or five on the exceptional stratum. A complete measurement
+must be one whole class; mixed settings are impossible.
+
+For the two complex classes, $P,T$ commute canonically.
+For the exceptional class, dephasing the displayed frames places all
+entries in $\mathbb R+\mathbb R\mathbf j$, again giving a commuting
+pair with $P$. For the remaining two classes their balanced involution
+is $\Gamma(u)$ or $\Gamma(v)$. Direct multiplication gives
+\[
+\begin{gathered}
+ \Gamma(u)A_+\Gamma(u)=-A_-,\qquad
+ \Gamma(v)A_+\Gamma(v)=A_-,\\
+ \Gamma(u)\Gamma(m)=-\Gamma(m)\Gamma(u),
+ \qquad\Gamma(v)\Gamma(m)=-\Gamma(m)\Gamma(v).
+\end{gathered}
+\]
+Therefore in the $Q$ basis this involution swaps the two rank-one
+outcomes on $E_+$ with those on $E_-$: its support is a matching.
+By the matching case of Lemma~\ref{lem:coarsesupport}, $Q,T$ commute canonically.
+Every complete setting has the required commuting pair.
+\end{proof}
+
+\begin{corollary}[Nonexistence of four-fold unbiased measurements]
+\label{cor:globalnonexistence}
+There is no algebraic or spectral four-fold unbiased tuple with four
+outcomes of rank two on $\mathbb C^8$.
+\end{corollary}
+\begin{proof}
+Any three-setting subtuple is strong by algebraic heredity or
+Theorem~\ref{thm:spectralheredity}. It contains a commuting canonical
+pair by Theorem~\ref{thm:globalcommuting}, contradicting the uniform
+nonextension theorem, Theorem~\ref{thm:commutingnonextension}.
+\end{proof}
+
+The classification is global in the first pair. Generic and exceptional
+strata refer to the exact vanishing of the displayed chart coordinates;
+all noncommuting pairs are included. Chart endpoints at which the chosen
+coarse-graining loses an edge are handled by choosing a full
+coarse-graining, whose existence follows from the coarse-support
+lemma. Commuting first pairs require no additional classification for
+Theorem~\ref{thm:globalcommuting} and are covered uniformly by the
+nonextension theorem.
+
+The result is specific to rank two. Full algebraic--spectral equivalence
+and unrestricted nonexistence at higher rank remain open here: the
+quaternionic rank-one reduction is essential to the outcome exhaustion.
+
+\paragraph{Proof verification.}
+The main moment argument is analytic; its word counts and Newton
+identities are checked by exact rational arithmetic. The quaternionic
+rigidity proof is a determinant-phase argument over $\mathbb F_3$.
+The extension theorem uses exact polynomial identities and a uniformly
+positive Gram factorization. The global classification uses analytic
+case exhaustion, with exact symbolic checks of its matrix identities,
+exceptional reductions, candidate overlaps and strong moments. Appendix~\ref{app:verification} identifies
+the independently executable verifiers and the additional certificates,
+which are available at
+\url{https://github.com/danielrupawalla/rank-two-obstruction}.
+
+\paragraph{AI assistance.}
+This manuscript was developed through human-directed discussions with
+OpenAI Codex. The AI assistant contributed proposed proof strategies,
+algebraic derivations, verifier code, internal consistency checks, and
+writing and editing of the text. Daniel Rupawalla selected the research
+questions and directed the work. The author is responsible for
+checking and approving the final mathematical claims and manuscript.
+
+\begin{thebibliography}{9}
+\bibitem{DF} S. Designolle and M. Farkas,
+\emph{$k$-fold unbiased measurements and maximal incompatibility},
+arXiv:2609.20728v1 (2026).
+\url{https://arxiv.org/abs/2609.20728}.
+\bibitem{F} M. Farkas, \emph{$n$-fold unbiased bases: an extension of the MUB condition},
+arXiv:1706.04446 (2017). \url{https://arxiv.org/abs/1706.04446}.
+\bibitem{FKN} M. Farkas, J. Kaniewski and A. Nayak,
+\emph{Mutually Unbiased Measurements, Hadamard Matrices, and Superdense Coding},
+IEEE Trans. Inf. Theory \textbf{69}, 3814 (2023);
+arXiv:2204.11886. \url{https://arxiv.org/abs/2204.11886}.
+\bibitem{CD} O. Chterental and D. \v{Z}. Djokovi\'c,
+\emph{On orthostochastic, unistochastic and qustochastic matrices},
+Linear Algebra Appl. \textbf{428}, 1178 (2008);
+arXiv:0708.4051. \url{https://arxiv.org/abs/0708.4051}.
+\bibitem{TZ} W. Tadej and K. \.{Z}yczkowski,
+\emph{A concise guide to complex Hadamard matrices},
+Open Syst. Inf. Dyn. \textbf{13}, 133--177 (2006).
+\url{https://arxiv.org/abs/quant-ph/0512154}.
+\bibitem{DS} F. Del Santo, J. Czartowski, K. \.{Z}yczkowski and N. Gisin,
+\emph{Iso-entangled bases and joint measurements},
+Phys. Rev. Research \textbf{6}, 023085 (2024).
+\url{https://doi.org/10.1103/PhysRevResearch.6.023085}.
+\end{thebibliography}
+
+\appendix
+\section{Proof of the commuting-pair obstruction}\label{app:commutingproof}
+We now strengthen the fixed real-Hadamard result to every commuting
+canonical pair within a strong triple. The standard pairwise
+commutativity criterion is from \cite{FKN}; its necessity somewhere in
+an arbitrary strong triple is not assumed.
+
+\begin{lemma}[Commuting first-pair normal form]\label{lem:commutingpair}
+A pair within a four-outcome rank-two strong triple, whose dephased
+canonical blocks commute, is equivalent to the pair with computational
+first setting and normalized second-setting frame array $U(q)/2$, where
+\[
+ U(q)=\begin{pmatrix}
+ 1&1&1&1\\1&-1&q&-q\\1&1&-1&-1\\1&-1&-q&q
+ \end{pmatrix},\qquad q=c+s\mathbf i,\quad c^2+s^2=1.
+\]
+\end{lemma}
+\begin{proof}
+By quaternionic rigidity, the canonical blocks lie in $SU(2)$.
+Commuting blocks lie in one complex subfield of the quaternions after
+a common internal conjugation. Their scalar complex entries form an
+order-four complex Hadamard matrix. The standard classification puts
+this in the one-parameter family \cite[Section~5.4]{TZ}. Row and column
+phase gauges in that subfield act simultaneously on the conjugate
+complex component, so they are allowed quaternionic frame gauges.
+Permuting rows and columns gives the displayed form.
+\end{proof}
+
+\begin{lemma}[Third-outcome classification for $s\ne0$]
+\label{lem:commutingoutcomes}
+Normalize a quaternionic third-outcome frame to
+$\frac12(1,u_1,u_2,u_3)^T$. Identify imaginary quaternions with
+$\mathbb R^3$, put $n=\mathbf i$, and let
+$v=\cos t\,\mathbf j+\sin t\,\mathbf k$ and $h=n\times v$.
+Its pair and strong triple identities with the preceding pair hold
+exactly in these two classes, with all displayed signs independent:
+\[
+\begin{array}{ll}
+\mathrm A_{\varepsilon,\delta}(t):&
+ (u_1,u_2,u_3)=(v,\varepsilon n,\delta h),\\[2pt]
+\mathrm B_{\eta,\varepsilon}(t):&
+ u_1=\frac{\eta s}{2}+\frac{\varepsilon-\eta c}{2}n
+       +\frac{\varepsilon+\eta c}{2}h-\frac{\eta s}{2}v,\\
+&u_2=v,\\
+&u_3=-\frac{\eta s}{2}+\frac{\varepsilon+\eta c}{2}n
+       +\frac{\varepsilon-\eta c}{2}h+\frac{\eta s}{2}v.
+\end{array}
+\]
+Each sign belongs to $\{1,-1\}$.
+\end{lemma}
+\begin{proof}
+For column $b$, put $v_a^{(b)}=U_{ab}^*u_a$, with $u_0=1$.
+The first-anchor triple identities say that the real Gram matrix of
+the four unit quaternions $v_a^{(b)}$ has every row sum equal to one.
+Indeed $S_b=\frac12\sum_a v_a^{(b)}$ and
+$\operatorname{Re}(S_b\overline{v_a^{(b)}})=1/2$.
+These row sums also give $|S_b|=1$, so the pair relation with the
+second setting holds and the triangle normal form gives all anchors.
+
+The first two columns of $U(q)$ imply
+\[
+ u_1=a+x,\quad u_2=v_0,\quad u_3=-a+y,
+ \qquad |v_0|=1,\quad
+ x\cdot v_0=-a,\quad y\cdot v_0=a,\quad x\cdot y=a^2,
+\]
+where $x,y,v_0$ are imaginary and $|x|^2=|y|^2=1-a^2$.
+Thus $p=(x+y)/\sqrt2$ is a unit vector orthogonal to $v_0$.
+With $w=v_0\times p$ there is a signed real $b$ such that
+\[
+ x-y=-2av_0+\sqrt2 b w,\qquad b^2+4a^2=1.
+\]
+The last two columns give
+\[
+ n\cdot p=n\cdot w,\qquad a(n\cdot v_0)=0,\qquad
+ 2ac+s\bigl(\sqrt2 b(n\cdot w)-2a(n\cdot v_0)\bigr)=0.
+\]
+These follow by expanding real quaternionic products; the converse
+recovers all four Gram row-sum identities.
+For clarity, put $\alpha=n\cdot v_0$, $\gamma=n\cdot p$ and
+$\delta=n\cdot w$. The four row sums minus one for column 2 are
+\[
+\begin{split}
+ r_0&=2ac+s(-2a\alpha+\sqrt2 b\delta),\\
+ r_1&=2ac+\frac{s}{\sqrt2}((1+b)\gamma+(b-1)\delta),\\
+ r_2&=2ac+s(2a\alpha+\sqrt2 b\gamma),\\
+ r_3&=2ac+\frac{s}{\sqrt2}((b-1)\gamma+(b+1)\delta).
+\end{split}
+\]
+Thus $r_1-r_3=\sqrt2 s(\gamma-\delta)$ and, once
+$\gamma=\delta$, $r_2-r_0=4as\alpha$. Column 3 reverses the
+signs of these four residuals. This proves the asserted equivalence.
+
+If $a=0$, then $b=\pm1$, and $s\ne0$ forces
+$n\cdot p=n\cdot w=0$. Hence $v_0=\pm n$ and $x,y$ are orthogonal
+unit vectors in its perpendicular plane, giving class A.
+If $a\ne0$, then $n\cdot v_0=0$ and
+$n\cdot p=n\cdot w=\varepsilon/\sqrt2$.
+The last equation and $b^2+4a^2=1$ give
+$a=\eta s/2$ and $b=-\varepsilon\eta c$.
+Substitution, using $p=\varepsilon(n+n\times v_0)/\sqrt2$, gives class B.
+The exact polynomial verifier independently checks the unit norms and
+all triangle equations for all eight signed circles.
+\end{proof}
+
+\begin{lemma}[Complete third settings reduce to class A]
+\label{lem:commutingcompletion}
+For $s\ne0$, every complete third setting is equivalent, allowing an
+exchange of the first two settings, to four class-A outcomes with tags
+\[
+ (1,1,0),\quad(1,1,\pi),\quad(-1,-1,\beta),\quad(-1,-1,\beta+\pi).
+\]
+The first pair retains the form $U(q)$, possibly replacing $q$ by
+$-q$ or $\overline q$.
+\end{lemma}
+\begin{proof}
+For unscaled normalized frames, orthogonality is equivalent to
+$\sum_a\overline{u_a}u'_a=0$.
+Within either class the squared norm of this sum is zero when both
+signs reverse, $8(1+\cos(t'-t))$ when signs coincide, and four when
+exactly one sign reverses. Between classes, after rotating the first
+angle to zero, it is
+\[
+ 4+L\cos t'+M\sin t',\qquad
+ L^2+M^2=8(1+\rho c),\quad \rho\in\{1,-1\}.
+\]
+Since $s\ne0$, its minimum is strictly positive. Consequently no
+complete setting mixes the classes. Within one class, four orthogonal
+outcomes consist of two antipodal points on one signed circle and two
+on the circle with both signs reversed.
+
+Exchange $P,Q$ and swap their outcome indices 1 and 2. The first-pair
+array becomes $U(\overline q)$, rather than $U(q)$; this is the
+conjugation of the phase allowed in the lemma statement. For a class-B frame, the new normalized
+frame has zero real part in its first nontrivial row and has second
+nontrivial row $-\varepsilon\mathbf i$. It therefore belongs to class A.
+Explicitly the new frame is $S_b\overline{S_0}$, with row order
+$(0,2,1,3)$ and $S_b=\frac12\sum_a\overline{U_{ab}}u_a$.
+Equivalently, the new frame has zero real part in its first nontrivial
+row, which is the case $a=0$ of Lemma~\ref{lem:commutingoutcomes} for the
+array $U(\overline q)$; since $s\neq0$ is preserved, that case gives
+class A. The verifier also checks this exchange identity exactly.
+
+In class A choose the signed circle with first sign positive.
+If its second sign is negative, interchange computational rows 1 and 3;
+this sends $U(q)$ to $U(-q)$ and reverses that sign.
+A common internal rotation about $\mathbf i$ sets the first angle to zero.
+The second angle $\beta$ remains arbitrary, giving the displayed setting.
+\end{proof}
+
+\paragraph{Completion of the proof of Theorem~\ref{thm:commutingnonextension}.}
+\begin{proof}
+Use Lemma~\ref{lem:commutingpair}. When $s=0$, the first pair is
+real-Hadamard and Theorem~\ref{thm:allfixedpair} applies.
+Otherwise Lemma~\ref{lem:commutingcompletion} gives the normalized class-A
+setting. Any prospective fourth outcome is quaternionic in the same
+coordinates, by rigidity applied to its completion of the first pair.
+Its deviation $D=T-\id/4$ therefore lies in the 28-dimensional real
+quaternionic Hermitian space and satisfies
+\[
+ \operatorname{tr}\bigl(D\Sym(P_a,Q_b,R_c)\bigr)=0
+ \quad\text{for all }a,b,c.
+\]
+
+For the Pauli expansion in this proof we use the embedding
+\[
+ \mathbf i\longmapsto i\sigma_z,\qquad
+ \mathbf j\longmapsto i\sigma_y,\qquad
+ \mathbf k\longmapsto i\sigma_x.
+\]
+Appendix~\ref{app:explicit} instead uses
+$(\mathbf i,\mathbf j,\mathbf k)\mapsto
+(i\sigma_x,-i\sigma_y,i\sigma_z)$.
+The two conventions are related by conjugation on the internal qubit
+with the Hadamard unitary
+$H_2=2^{-1/2}\bigl(\begin{smallmatrix}1&1\\1&-1\end{smallmatrix}\bigr)$:
+$H_2\sigma_xH_2=\sigma_z$, $H_2\sigma_zH_2=\sigma_x$, and
+$H_2\sigma_yH_2=-\sigma_y$.
+Every Pauli word below uses the first convention, with the internal
+qubit as its last factor; this simultaneous unitary change preserves
+all measurement identities and the obstruction.
+
+Put $d=\cos\beta$, $e=\sin\beta$ and use Walsh observables
+for the three settings. For $P$ these are
+$A=(III,ZII,IZI,ZZI)$; for $Q$ they are $B_0=III$, $B_1=XII$ and
+\[
+ B_2=\frac{1+c}{2}IXI+\frac{1-c}{2}XXI
+       +\frac{s}{2}(IYZ-XYZ),\quad
+ B_3=\frac{1-c}{2}IXI+\frac{1+c}{2}XXI
+       -\frac{s}{2}(IYZ-XYZ).
+\]
+For $R$ they are $C_0=III$, $C_1=YIZ$ and
+\[
+\begin{gathered}
+ C_2=\frac{1+d}{2}ZYY+\frac{1-d}{2}XYX
+       +\frac e2(XYY+ZYX),\\
+ C_3=\frac{1-d}{2}ZYY+\frac{1+d}{2}XYX
+       -\frac e2(XYY+ZYX).
+\end{gathered}
+\]
+These formulas follow by expanding the outcome frames.
+The invertible Walsh transform replaces the trace constraints by those
+with $\Sym(A_i,B_j,C_k)$.
+
+Grade the quaternionic Hermitian Pauli basis by conjugation with
+$J=IZI$. Each of these moment rows has a single grade. The twelve
+commuting Pauli coordinates split into eight coordinates
+\[
+ III,IZI,XII,XZI,YIZ,YZZ,ZII,ZZI
+\]
+and four coordinates $(YIX,YIY,YZX,YZY)$.
+In the Gram matrix of the moment rows' Pauli coefficients, the first
+block is $36I_8$, with zero cross terms. The second block is
+\[
+ G_4=4I_4+8WW^T,\qquad
+ W=\begin{pmatrix}
+ s&sd&0&0\\0&-se&0&0\\0&-ce&0&e\\-c&-cd&1&d
+ \end{pmatrix}.
+\]
+Exact Pauli multiplication verifies this identity using only
+$c^2+s^2=d^2+e^2=1$. Thus the commuting-coordinate Gram matrix is
+strictly positive for every parameter. A candidate deviation must have
+all twelve commuting coordinates zero, giving $JDJ=-D$.
+Consequently $\operatorname{tr}D^3=0$.
+
+For a rank-two projector on $\mathbb C^8$, however,
+$D=T-\id/4$ has eigenvalues $3/4$ twice and $-1/4$ six times,
+so $\operatorname{tr}D^3=3/4$, a contradiction.
+The standard-library verifier
+\texttt{verify\_commuting\_\allowbreak pair\_theorem.py} checks the outcome identities,
+orthogonality formulas, exchange reduction, observable formulas and
+the polynomial Gram factorization.
+\end{proof}
+
+\section{Fixed-real-pair classification and nonextension}\label{app:fixedpair}
+\subsection{The fixed real pair and its standard completion}\label{app:explicit}
+Use zero-based indices $a,b,c\in\{0,1,2,3\}$. Define
+\[
+H=\begin{pmatrix}1&1&1&1\\1&-1&1&-1\\
+1&1&-1&-1\\1&-1&-1&1\end{pmatrix},\qquad
+(E_0,E_1,E_2,E_3)=(\id_2,i\sigma_x,-i\sigma_y,i\sigma_z),
+\]
+where the Pauli matrices are
+\[
+\sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix},\quad
+\sigma_y=\begin{pmatrix}0&-i\\i&0\end{pmatrix},\quad
+\sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
+\]
+On $\mathbb C^4\otimes\mathbb C^2$, set
+\begin{align*}
+P_a&=|a\rangle\langle a|\otimes\id_2,\\
+Q_b&=\frac14\sum_{u,v=0}^3 H_{ub}H_{vb}|u\rangle\langle v|\otimes\id_2,\\
+R_c&=\frac14\sum_{u,v=0}^3 H_{uc}H_{vc}|u\rangle\langle v|\otimes E_uE_v^*.
+\end{align*}
+Each measurement consists of four mutually orthogonal rank-two projections
+summing to $\id_8$. The triple obeys
+\begin{equation}\label{eq:explicittriple}
+ A(BC+CB)A=\frac18 A
+\end{equation}
+for every selected outcome triple and every anchor $A$ among its three
+members. These properties follow from the construction in \cite{DF} and
+are also reproduced exactly by the accompanying construction checker.
+
+
+For the displayed triple and
+$O\in O(4)$, set $R_c^O=(O\otimes\id_2)R_c(O^T\otimes\id_2)$,
+while keeping $P$ and $Q$ fixed. This operation conjugates only the
+third setting, so it is not one of the allowed simultaneous equivalences.
+
+\begin{theorem}[Real-orthogonal deformation]\label{thm:rotations}
+For every real orthogonal $O$, the triple $(P,Q,R^O)$ is an algebraic
+three-fold unbiased triple with four outcomes of rank two on $\mathbb C^8$.
+
+\end{theorem}
+\begin{proof}
+For a fixed outcome $c$, put
+\[
+ U_{ac}=\sum_{v=0}^3 O_{av}H_{vc}E_v,
+ \qquad V_c=\frac12\begin{pmatrix}U_{0c}\\U_{1c}\\U_{2c}\\U_{3c}\end{pmatrix}.
+\]
+The two-sided Clifford identities and orthogonality of $O$ imply
+\[
+ U_{ac}^*U_{a'c}+U_{a'c}^*U_{ac}=2\delta_{aa'}\id_2,
+ \qquad
+ U_{ac}U_{a'c}^*+U_{a'c}U_{ac}^*=2\delta_{aa'}\id_2.
+\]
+In particular every $U_{ac}$ is unitary, $V_c^*V_c=\id_2$, and
+$R_c^O=V_cV_c^*$. The $R_c^O$ form a PVM because they are a common
+unitary conjugate of the original third setting. Their pairwise MUM
+relations with $P$ follow from unitarity of each block. If
+$q_b=\frac12\sum_a H_{ab}|a\rangle$, then
+$V_c^*(q_b\otimes\id_2)=\frac14\sum_aH_{ab}U_{ac}^*$.
+The Clifford identities make the product with its adjoint $\id_2/4$,
+in either order, proving the MUM relations with $Q$.
+
+For the $P_a$ anchor, the only nonzero diagonal block of
+$P_a(Q_bR_c^O+R_c^OQ_b)P_a$ is
+\[
+ \frac1{16}\sum_v H_{ab}H_{vb}
+ (U_{vc}U_{ac}^*+U_{ac}U_{vc}^*)=\frac18\id_2.
+\]
+Compression to the $Q_b$ frame gives the same expression with the
+products in reversed order of the row labels, hence $\id_2/8$.
+Finally compression to the $R_c^O$ frame gives
+\[
+ V_c^*(P_aQ_b+Q_bP_a)V_c
+ =\frac1{16}\sum_v H_{ab}H_{vb}
+ (U_{ac}^*U_{vc}+U_{vc}^*U_{ac})=\frac18\id_2.
+\]
+These are all three anchor identities.
+
+\end{proof}
+
+\subsection{Exhaustive normal form with the first pair fixed}
+
+\begin{lemma}[Outcome-frame reduction]\label{lem:outcomeframe}
+Keep the computational $P$ and the real-Hadamard $Q$ of Appendix~\ref{app:explicit} fixed.
+Every rank-two outcome $S$ of a third setting in an algebraic three-fold
+unbiased triple has the form
+\[
+ S=(\id_4\otimes V)R_0^{\epsilon}(\id_4\otimes V^*),
+ \qquad V\in SU(2),\quad \epsilon\in\{+,-\},
+\]
+where $R_0^+=R_0$ and $R_0^-$ is obtained by replacing $E_3$ by $-E_3$.
+\end{lemma}
+\begin{proof}
+Write $S_{av}$ for its $2\times2$ row blocks. Pairwise unbiasedness
+gives $S_{aa}=\id_2/4$. The $P_a$-anchored triple equation gives, for
+each $b$,
+\[
+ \frac14\sum_v H_{ab}H_{vb}(S_{va}+S_{av})=\frac18\id_2.
+\]
+The $v=a$ term is already $\id_2/8$. Inverting the Hadamard transform
+in $b$ shows $S_{va}+S_{av}=0$ for $v\ne a$. Thus each off-diagonal
+block is anti-Hermitian; this conclusion does not impose a quaternionic
+ansatz on $S$.
+
+Because $S$ is a rank-two projection, choose an isometry $W$ with
+$S=WW^*$. Write its row blocks as $W_a=U_a/2$; the scalar diagonal
+blocks show that every $U_a$ is unitary. Off-diagonal anti-Hermiticity
+gives $U_aU_v^*+U_vU_a^*=0$. A common right multiplication by $U_0^*$
+leaves $S$ unchanged and sets $U_0=\id_2$. Now $U_j^*=-U_j$ and
+$U_jU_k+U_kU_j=0$ for distinct $j,k\in\{1,2,3\}$.
+None of the $U_j$ can be $\pm i\id_2$, since that would contradict
+anticommutation with the other unitary blocks. The Hermitian involutions
+$-iU_j$ therefore have eigenvalues $+1,-1$, and can be written
+$\boldsymbol n_j\cdot\boldsymbol\sigma$ with real unit vectors
+$\boldsymbol n_j$. Anticommutation says the three vectors are orthogonal.
+There are two orientations of this ordered orthonormal triad. The
+adjoint action of $SU(2)$ realizes every proper rotation, hence the triad
+is conjugate to either the explicit $E_1,E_2,E_3$ or
+$E_1,E_2,-E_3$. This proves the claimed form.
+\end{proof}
+
+\begin{theorem}[Fixed-pair classification]\label{thm:fixedpair}
+For the computational/real-Hadamard pair $(P,Q)$ of Appendix~\ref{app:explicit}, a
+four-outcome rank-two PVM $S$ completes an algebraic three-fold unbiased
+triple if and only if, after relabelling its outcomes,
+\[
+ S_c=(O\otimes V)R_c(O^T\otimes V^*),
+ \qquad O\in O(4),\quad V\in SU(2).
+\]
+The parameters need not be unique.
+\end{theorem}
+\begin{proof}
+The forward construction follows from Theorem~\ref{thm:rotations}:
+$\id_4\otimes V$ commutes with all $P_a,Q_b$, so its conjugation
+preserves the triple equations. We prove exhaustiveness.
+
+Introduce two triples of operators on $\mathbb C^4$, with $XY=\sigma_x\otimes\sigma_y$ and similarly for the other
+two-letter products, where $I=\id_2$:
+\[
+ (L_1^+,L_2^+,L_3^+)=(IY,YZ,YX),\qquad
+ (L_1^-,L_2^-,L_3^-)=(ZY,YI,-XY).
+\]
+Both obey the usual Pauli multiplication relations. Their generators
+are purely imaginary skew matrices; the two triples commute with one
+another and satisfy $\operatorname{tr}(L_j^+L_k^-)=0$. Direct expansion
+gives
+\[
+ R_0^{\pm}=\frac14\bigl(\id_8+
+ L_1^{\pm}\otimes\sigma_x-L_2^{\pm}\otimes\sigma_y+
+ L_3^{\pm}\otimes\sigma_z\bigr).
+\]
+Consequently, for arbitrary $V,W\in SU(2)$,
+\[
+ \operatorname{tr}\left[
+ (\id_4\otimes V)R_0^+(\id_4\otimes V^*)
+ (\id_4\otimes W)R_0^-(\id_4\otimes W^*)\right]=\frac12.
+\]
+All cross terms vanish by the stated traces; the identity contribution
+is $8/16$. Outcomes of different signs therefore cannot be orthogonal.
+Lemma~\ref{lem:outcomeframe} implies that all four outcomes use the
+same sign. These finite Pauli identities and the 81 cross-component
+trace identities are independently checked in
+\texttt{verify\_fixedpair\_structure.py}.
+
+For either sign, the algebra generated by the $L_j^{\pm}$ is a copy
+of $M_2(\mathbb C)$ acting with multiplicity two on $\mathbb C^4$.
+This follows directly by diagonalizing $L_3^{\pm}$ and using the
+anticommuting involution $L_1^{\pm}$ to identify its two eigenspaces.
+Thus in suitable factor coordinates each outcome is the identity on
+the multiplicity factor tensored with a rank-one maximally entangled
+two-qubit projector. The four orthogonal outcomes become an orthonormal
+basis of maximally entangled vectors on the two active qubits.
+
+For completeness, the local-unitary normal form of such a basis is
+elementary. Write the vectors as
+$(\id_2\otimes B_c)|\Phi\rangle$ with unitary $B_c$ and
+$|\Phi\rangle=(|00\rangle+|11\rangle)/\sqrt2$.
+Orthonormality means $\operatorname{tr}(B_c^*B_d)=2\delta_{cd}$.
+A common left multiplication sets $B_0=\id_2$. For $j=1,2,3$, a
+traceless unitary $B_j$ is, after changing an irrelevant phase,
+$\boldsymbol n_j\cdot\boldsymbol\sigma$ with a real unit vector.
+The three vectors are orthonormal. Changing one vector's sign if needed
+and conjugating by a common $C\in SU(2)$ reduces them to the Pauli
+axes. On the entangled vectors this conjugation is realized by
+$\overline C\otimes C$, which preserves $|\Phi\rangle$.
+This proves that every such basis is locally equivalent to the Bell basis.
+This two-qubit fact is standard; the broader classification of
+iso-entangled bases is studied in \cite{DS}.
+
+An arbitrary unitary on the active first qubit is generated, up to an
+irrelevant scalar phase, by the $L_j^{\pm}$. Its representatives
+$\exp(i\theta\boldsymbol n\cdot\boldsymbol L^{\pm})$ are real
+orthogonal $4\times4$ matrices, because the $L_j^{\pm}$ are purely
+imaginary skew. The local unitary on the second active qubit is the
+factor $V$. The original four projectors $R_c^{\pm}$ already form
+the Bell basis in these factor coordinates: their Pauli correlation
+signs are the four triples with product $-1$. We therefore obtain
+the displayed normal form with the common sign fixed. Finally,
+$D=\operatorname{diag}(1,1,1,-1)$ satisfies
+$R_c^-=(D\otimes\id_2)R_c^+(D\otimes\id_2)$, so a negative sign
+can be absorbed into $O$.
+\end{proof}
+
+The deformation theorem supplies completions of the fixed real pair.
+Theorem~\ref{thm:fixedpair} proves that these exhaust its complete third
+settings, and the next theorem excludes their four-fold extensions.
+These fixed-pair statements alone do not classify triples with an
+arbitrary first pair.
+Its proof uses standard Clifford and pair-normal-form ingredients.
+
+\subsection{Nonextension for every completion of the fixed pair}
+\begin{theorem}[All fixed-pair completions are nonextendible]
+\label{thm:allfixedpair}
+Every four-outcome rank-two third setting $S$ such that $(P,Q,S)$ is a
+3-UM, with the computational/real-Hadamard pair of Appendix~\ref{app:explicit} fixed, has
+no algebraic four-fold unbiased extension. This includes every member
+of the orthogonal family in Theorem~\ref{thm:fixedpair}, without a genericity
+condition or an exclusion of exceptional parameters.
+\end{theorem}
+\begin{proof}
+Use $L^+=(IY,YZ,YX)$ and $L^-=(ZY,YI,-XY)$ from the fixed-pair proof.
+An outcome of any third setting is a maximally entangled projector on
+one of these spin factors and the internal qubit. Consequently its
+centered part has the form
+\[
+ T-\id_8/4=\frac14\sum_{k,l=1}^3 X_{kl}L_k^\epsilon\otimes\sigma_l,
+ \qquad X\in O(3),\quad \det X=-1.
+\]
+This is the usual orthogonal correlation matrix of a maximally entangled
+two-qubit pure state. In particular its three columns are nonzero.
+
+Normalize the given third setting to the positive type. Swapping the two
+first-factor qubits exchanges $L^+$ and $L^-$ up to signed permutations;
+it permutes the computational and real-Hadamard outcomes, so preserves
+the fixed pair as measurements. The common internal unitary can also be
+removed. In these coordinates the third outcomes have the form
+\[
+ S_c=\frac14\left(\id_8+
+ \sum_{i,j=1}^3 M_{ij}s_{jc}L_i^+\otimes\sigma_j\right),
+ \qquad M\in SO(3),
+\]
+where the four sign vectors $s_{\cdot c}$ are the Bell correlation signs.
+They satisfy $\sum_c s_{jc}=0$ and
+$\sum_c s_{jc}s_{kc}=4\delta_{jk}$. Thus taking the corresponding
+signed sums of the $P$-anchored four-fold equations isolates the operator
+$\sum_i M_{ij}L_i^+\otimes\sigma_j$ for each $j$.
+
+Write $m=(M_{1j},M_{2j},M_{3j})$ and
+$x=(X_{1j},X_{2j},X_{3j})$. Exact Pauli expansion of these equations
+gives, in the same-type case,
+\begin{equation}\label{eq:columnobstruction}
+ m\cdot x=0,\qquad m_i x_k+m_k x_i=0\quad(i\ne k).
+\end{equation}
+For clarity, one may extract these four equations using only anchor
+$P_0$ and the four $Q_b$: up to a common nonzero scale their scalar
+coefficients are $3m\cdot x$ plus the three off-diagonal expressions,
+with coefficient sign rows
+$(1,1,1),(-1,1,-1),(-1,-1,1),(1,-1,-1)$.
+These four rows form an invertible Hadamard transform together with the
+constant column. In the opposite-type case, the equations with all four
+$P_a$ anchors give instead
+\begin{equation}\label{eq:oppositecolumn}
+ m_i x_k=0\qquad\hbox{for all }i,k.
+\end{equation}
+Both coefficient identities hold symbolically for all real $M,X$;
+\texttt{verify\_fixedpair\_no\_extension.py} independently checks their
+row spans by exact Gaussian-integer Pauli multiplication and rational
+row reduction. It checks all 27 monomials per column, for both types,
+so no parameter sampling enters this reduction.
+
+Since $m$ is a unit vector, \eqref{eq:oppositecolumn} forces $x=0$,
+impossible for an orthogonal $X$. Consider \eqref{eq:columnobstruction}.
+If $m_i\ne0$ and $m_k=0$, then $x_k=0$. On the support of $m$, put
+$r_i=x_i/m_i$. The off-diagonal equations say $r_i+r_k=0$.
+For three supported coordinates this forces all $r_i=0$; for one
+coordinate the dot equation forces $x=0$. A nonzero $x$ is therefore
+possible only when $m$ has exactly two supported coordinates $i,k$,
+with $|m_i|=|m_k|=1/\sqrt2$ and $r_i=-r_k$.
+
+An orthogonal $3\times3$ matrix cannot have three columns of that form.
+Columns with different two-coordinate supports overlap in exactly one
+coordinate and have dot product $\pm1/2$; columns with identical support
+lie in a two-dimensional plane and cannot supply three orthogonal vectors.
+At least one column of $M$ therefore forces the corresponding column of
+$X$ to vanish, again a contradiction. Every prospective fourth outcome
+must also complete a 3-UM with $P,Q$ by heredity, so the argument excludes
+every possible fourth setting.
+\end{proof}
+
+The theorem is a fixed-pair result, not a claim that an arbitrary pair
+in a strong triple is equivalent to the computational/real-Hadamard pair.
+
+\section{An auxiliary complete-frame formulation}\label{app:noncommuting}
+\subsection{Strong settings from supported kernels}
+\label{sec:globalcoarse}
+This reduction includes arbitrary outcome classes and every parameter
+stratum. Write $\tau(A)=\operatorname{Re}\operatorname{Tr}_{\mathbb H}A$.
+For a fixed quaternionic MUM pair $P,Q$, define the real linear space
+\[
+ K_{P,Q}=\{D\in\operatorname{Herm}_4(\mathbb H):
+ \tau((P_aQ_b+Q_bP_a)D)=0\text{ for every }a,b\}.
+\]
+Its orthogonal complement contains $I$, every $P_a$ and every $Q_b$.
+Thus elements of $K_{P,Q}$ are traceless and have zero diagonal in
+both measurement bases. No dimension or constant-rank assumption is made.
+
+\begin{proposition}[Complete settings from supported kernels]
+\label{prop:globalkernels}
+A quaternionic rank-one projector $T$ completes $P,Q$ to a strong
+outcome triple precisely when $T-I/4\in K_{P,Q}$.
+Complete third settings are equivalently obtained as follows. Choose
+$X\in K_{P,Q}$ with $X^2=I$, set $e_\pm=(I\pm X)/2$, and define
+\[
+ L_\pm(X)=\{A\in K_{P,Q}:XA=\pm A\}.
+\]
+A complete setting with this balanced coarse-graining exists if and only
+if both $L_+(X)$ and $L_-(X)$ are nonzero.
+\end{proposition}
+\begin{proof}
+Quaternionic rank-one compression of a Hermitian matrix is scalar.
+For a MUM pair, $\tau(P_aQ_b)=1/4$. The strong identities are therefore
+exactly $\tau((P_aQ_b+Q_bP_a)T)=1/8$; summing these equations also
+gives both pairwise unbiasedness relations. Subtracting $I/4$ gives
+membership in $K_{P,Q}$. Cyclicity of the real trace gives all three
+anchors, including the anchor at $T$.
+
+Given a complete setting $R_0,\ldots,R_3$, put
+$X=R_0+R_1-R_2-R_3$. Then $X\in K_{P,Q}$ and $X^2=I$,
+while $R_0-R_1\in L_+(X)$ and $R_2-R_3\in L_-(X)$ are nonzero.
+Conversely, $X$ is traceless, so each $e_\pm$ has quaternionic rank two.
+Hermiticity gives $AX=XA=\pm A$ for $A\in L_\pm(X)$.
+Such $A$ is supported on $e_\pm$ and traceless. A traceless Hermitian
+$2\times2$ quaternionic matrix squares to a nonnegative scalar multiple
+of the identity: in coordinates
+$\bigl(\begin{smallmatrix}a&q\\\bar q&-a\end{smallmatrix}\bigr)^2
+=(a^2+|q|^2)I$. Normalize nonzero choices to
+$A_\pm^2=e_\pm$. Then
+\[
+ (e_++A_+)/2,\quad(e_+-A_+)/2,\quad
+ (e_-+A_-)/2,\quad(e_--A_-)/2
+\]
+are four orthogonal quaternionic rank-one projectors summing to $I$.
+Each differs from $I/4$ by an element of $K_{P,Q}$, hence the resulting
+complete setting is strong. This also proves exhaustion.
+\end{proof}
+
+\section{Verification artifacts}\label{app:verification}
+The source and every verifier below, together with the shared module
+\texttt{helpers.py} and the helper scripts it relies on, are available at
+\url{https://github.com/danielrupawalla/rank-two-obstruction}.
+The repository includes a README, a dependency declaration and a runner
+that executes each verifier with assertions enabled. The core moment and commuting-pair verifiers use Python's standard
+library. The polynomial chart and global-classification checks use SymPy.
+\small
+\begin{longtable}{p{0.43\textwidth}p{0.51\textwidth}}
+\toprule Result & Verifier or artifact\\\midrule
+Stratum symmetries and embedding change & \texttt{verify\_stratum\_symmetry.py}\\
+Global outcome and setting identities & \texttt{verify\_global\_outcome\_classification.py}\\
+Global linear and exceptional reductions & \texttt{verify\_global\_linear\_reduction.py}, \texttt{verify\_global\_exceptional\_reduction.py}, \texttt{verify\_global\_exceptional\_complex\_term.py}\\
+Global complete-frame reduction & \texttt{verify\_global\_coarse\_reduction.py}\\
+Unified noncommuting pair chart & \texttt{verify\_unified\_pair\_chart.py}\\
+Coarse-support bridge and two-column chart & \texttt{verify\_coarse\_support\_bridge.py}, \texttt{verify\_two\_column\_kernel.py}\\
+Spectral moment rigidity & \texttt{verify\_spectral\_moment\_rigidity.py}\\
+Quaternionic triangle normal form & \texttt{verify\_triangle\_normal\_form.py}\\
+Scalar-triangle exclusion & \texttt{verify\_scalar\_triangle\_exclusion.py}\\
+Uniform commuting-pair theorem & \texttt{verify\_commuting\_pair\_theorem.py}\\
+Fixed-real-pair structure and obstruction & \texttt{verify\_fixedpair\_structure.py}, \texttt{verify\_fixedpair\_no\_extension.py}\\
+\bottomrule
+\end{longtable}
+\normalsize
+The spectral verifier checks symbolic identities in $k$ and $1/n$, all
+relevant fourth- and sixth-order word types, and exact matrix examples
+with positive defects. The global-classification verifiers check the
+symbolic matrix identities and branch reductions used in the analytic proof.
+
+\end{document}

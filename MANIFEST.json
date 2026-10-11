@@ -1,0 +1,32 @@
+{
+  "files": {
+    ".gitignore": "4e835bbb51ed959a0143438ae1ba9336e594a95e0589cdc1381836a2fb77a303",
+    "LICENSE": "2830e5845551d459b7af2c2dd06b40da085b87cd6518e4df24999015791d06be",
+    "README.md": "d31a87fae65db3ca732db7346ccf7c2507eb9ae126b107e2198dd74a46c64857",
+    "extension_linear_certificate.json": "3624b28ba5527453027d5b3db6939ad228fccfda7ba4bd96b9c64b3f5b22f7d0",
+    "helpers.py": "98c975e49e216a28d492d993ec7052e18250808ba46eac485ecf69e9e30d0698",
+    "rank_two_obstruction.pdf": "ae81ebca53dd59fc3548b255adcb9ae09d26bd05ab9a6cfe7bc986c5cdf816ee",
+    "rank_two_obstruction.tex": "08a14b36c0073282f3b2fbf3564436fa8228d4ac19218017f59cca1d265660ee",
+    "requirements-verification.txt": "25f9f1fb1988b230147a1d3092d34e09c069eb7a6c6d6df46b3973b9f2d36efc",
+    "run_manuscript_verifiers.py": "336f0c28d6021bf31b03243734b5018f86526d4e0b9e6ad965aa1bbbeec40021",
+    "verify_coarse_support_bridge.py": "43e526cce927ec299ebd2e98d721a34b178336d4732dfb5ba056dca85067ef9c",
+    "verify_commuting_pair_theorem.py": "9894942b73d347e59c9286253522b06a93c052c0b8fccaf79a0eda27cfbc5f31",
+    "verify_extension_certificate.py": "349efca26e485248c52b2b337fef820ed2db469ac46eadf906d6c9ddd92b0221",
+    "verify_family_reductions.py": "19698edd0495579ea949bd7e7142e5606e03c0b69b74a797a634d8615a430cac",
+    "verify_fixedpair_no_extension.py": "220716d265061f399c27e03158d29eb7de46ec39b641be2b62fb82c073cc7691",
+    "verify_fixedpair_structure.py": "6fa4a85d4ad59b157422302942b34d2fbf0448b9468d1fa5a64d934e4767d991",
+    "verify_global_coarse_reduction.py": "90d4cb0c40d9cfc7dc7001052e76c4cbb33bf6cf28b51cb4ab795cccda0f8258",
+    "verify_global_exceptional_complex_term.py": "44e06e288a64c8bc607fe93b13827e84710176562e56b5e18523aa2c33223aaf",
+    "verify_global_exceptional_reduction.py": "643c57067da909c57aeb71a6a634d9e14c9f5d829a714379cf0337eb52de1c7c",
+    "verify_global_linear_reduction.py": "a06104d07302e60124e3582521b4e93ad4449eed86bf5f1ba8882e6d881bcecb",
+    "verify_global_outcome_classification.py": "7812801d536f96b31f796c0593ce829c252d399e54b63e9e966719006ab58df9",
+    "verify_mixed_strong_triple.py": "3a56b352b6f8f46851c7350dd386f703408b775ec7a35063e662b7affe4130d0",
+    "verify_rotated_triple.py": "e4658e4d5d17e232ff3c9e244a7187a94dd3328f4cb6b351857b53ca094d64d1",
+    "verify_scalar_triangle_exclusion.py": "2ebe7b479f1cbc0996ed21c47f4796677796430ab421e20e27b289c8667362ff",
+    "verify_spectral_moment_rigidity.py": "ff1044b436a5732dc5848ffb2f016daaa0d5ce13d55ee36207684484190d01c9",
+    "verify_stratum_symmetry.py": "8e478fc064f84ca323e891bc1503c56013a44c92deb6c992dd7cece0f01c2282",
+    "verify_triangle_normal_form.py": "a6d0e3f2e77f444328e184bbcd44272f14a721b7c5669ddea795bd2124e4b3cd",
+    "verify_two_column_kernel.py": "76c97ffacef52dcdd9d546fc9db957d45587fa5713f80cc962b0142c11e16daf",
+    "verify_unified_pair_chart.py": "7cd78b88087d02143c05c3412a68c3c981b90adf932e36e3f7a68b4fd054ab61"
+  }
+}
